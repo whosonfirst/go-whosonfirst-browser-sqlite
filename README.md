@@ -16,7 +16,7 @@ $> go run cmd/whosonfirst-browser/main.go -enable-all \
 2019/12/19 13:19:59 Listening on http://localhost:8080
 ```
 
-![](images/wof-browser-sqlite-seine-et-marne.jpg)
+![](docs/images/wof-browser-sqlite-seine-et-marne.jpg)
 
 ```
 http://localhost:8080/id/85683385
