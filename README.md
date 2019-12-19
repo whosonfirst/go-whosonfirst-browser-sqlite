@@ -1,6 +1,6 @@
 # go-whosonfirst-browser-sqlite
 
-SQLite support for the Who's On First browser.
+SQLite-enabled Who's On First browser.
 
 ## Important
 
