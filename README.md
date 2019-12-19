@@ -26,3 +26,4 @@ http://localhost:8080/id/85683385
 
 * https://github.com/whosonfirst/go-whosonfirst-browser
 * https://github.com/whosonfirst/go-reader-database-sql
+* https://github.com/whosonfirst/go-whosonfirst-sqlite-features
