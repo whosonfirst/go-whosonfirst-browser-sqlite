@@ -66,11 +66,11 @@ github.com/whosonfirst/go-cache
 github.com/whosonfirst/go-geojson-svg
 # github.com/whosonfirst/go-reader v0.0.4
 github.com/whosonfirst/go-reader
-# github.com/whosonfirst/go-reader-database-sql v0.0.0-20191219210540-ccf2b118b406
+# github.com/whosonfirst/go-reader-database-sql v0.0.0-20191219213555-bcc61451596f
 github.com/whosonfirst/go-reader-database-sql
 # github.com/whosonfirst/go-sanitize v0.1.0
 github.com/whosonfirst/go-sanitize
-# github.com/whosonfirst/go-whosonfirst-browser v0.0.0-20191219164210-2cc087a4b2ef
+# github.com/whosonfirst/go-whosonfirst-browser v0.0.0-20200117001410-b1afd19c9b3c
 github.com/whosonfirst/go-whosonfirst-browser
 github.com/whosonfirst/go-whosonfirst-browser/assets/templates
 github.com/whosonfirst/go-whosonfirst-browser/cachereader
