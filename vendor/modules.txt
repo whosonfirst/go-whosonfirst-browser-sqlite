@@ -66,7 +66,7 @@ github.com/whosonfirst/go-cache
 github.com/whosonfirst/go-geojson-svg
 # github.com/whosonfirst/go-reader v0.0.4
 github.com/whosonfirst/go-reader
-# github.com/whosonfirst/go-reader-database-sql v0.0.0-20191219210540-ccf2b118b406
+# github.com/whosonfirst/go-reader-database-sql v0.0.0-20200123191922-69537164bb7a
 github.com/whosonfirst/go-reader-database-sql
 # github.com/whosonfirst/go-sanitize v0.1.0
 github.com/whosonfirst/go-sanitize

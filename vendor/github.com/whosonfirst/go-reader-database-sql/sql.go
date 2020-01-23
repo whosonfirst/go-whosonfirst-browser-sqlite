@@ -8,15 +8,15 @@ import (
 	wof_reader "github.com/whosonfirst/go-reader"
 	"io"
 	"io/ioutil"
-	"log"
+	_ "log"
 	"net/url"
 	"regexp"
 	"strings"
 )
 
-type readFunc func(*SQLReader, string) (string, error)
+type readFunc func(string) (string, error)
 
-type queryFunc func(*SQLReader, string) (string, []interface{}, error)
+type queryFunc func(string) (string, []interface{}, error)
 
 var VALID_TABLE *regexp.Regexp
 var VALID_KEY *regexp.Regexp
@@ -38,9 +38,9 @@ func init() {
 type SQLReader struct {
 	wof_reader.Reader
 	conn  *sql.DB
-	Table string
-	Key   string
-	Value string
+	table string
+	key   string
+	value string
 }
 
 func NewSQLReader() wof_reader.Reader {
@@ -100,9 +100,9 @@ func (r *SQLReader) Open(ctx context.Context, uri string) error {
 	}
 
 	r.conn = conn
-	r.Table = table
-	r.Key = key
-	r.Value = value
+	r.table = table
+	r.key = key
+	r.value = value
 
 	return nil
 }
@@ -110,10 +110,10 @@ func (r *SQLReader) Open(ctx context.Context, uri string) error {
 func (r *SQLReader) Read(ctx context.Context, raw_uri string) (io.ReadCloser, error) {
 
 	uri := raw_uri
-	
+
 	if URI_READFUNC != nil {
 
-		new_uri, err := URI_READFUNC(r, raw_uri)
+		new_uri, err := URI_READFUNC(raw_uri)
 
 		if err != nil {
 			return nil, err
@@ -122,27 +122,33 @@ func (r *SQLReader) Read(ctx context.Context, raw_uri string) (io.ReadCloser, er
 		uri = new_uri
 	}
 
-	q := fmt.Sprintf("SELECT %s FROM %s WHERE %s=?", r.Value, r.Table, r.Key)
-	
+	q := fmt.Sprintf("SELECT %s FROM %s WHERE %s=?", r.value, r.table, r.key)
+
 	q_args := []interface{}{
 		uri,
 	}
-	
+
 	if URI_QUERYFUNC != nil {
 
-		new_q, new_args, err := URI_QUERYFUNC(r, raw_uri)
+		extra_where, extra_args, err := URI_QUERYFUNC(raw_uri)
 
 		if err != nil {
 			return nil, err
 		}
 
-		q = new_q
-		q_args = new_args
+		if extra_where != "" {
+
+			q = fmt.Sprintf("%s AND %s", q, extra_where)
+
+			for _, a := range extra_args {
+				q_args = append(q_args, a)
+			}
+		}
 	}
 
-	log.Println("Q", q, q_args)
-	
-	row := r.conn.QueryRowContext(ctx, q, q_args)
+	// log.Println(q, q_args)
+
+	row := r.conn.QueryRowContext(ctx, q, q_args...)
 
 	var body string
 	err := row.Scan(&body)
