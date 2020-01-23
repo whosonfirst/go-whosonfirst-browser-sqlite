@@ -8,15 +8,15 @@ import (
 	wof_reader "github.com/whosonfirst/go-reader"
 	"io"
 	"io/ioutil"
-	_ "log"
+	"log"
 	"net/url"
 	"regexp"
 	"strings"
 )
 
-type readFunc func(string) (string, error)
+type readFunc func(*SQLReader, string) (string, error)
 
-type queryFunc func(string) (string, error)
+type queryFunc func(*SQLReader, string) (string, []interface{}, error)
 
 var VALID_TABLE *regexp.Regexp
 var VALID_KEY *regexp.Regexp
@@ -38,9 +38,9 @@ func init() {
 type SQLReader struct {
 	wof_reader.Reader
 	conn  *sql.DB
-	table string
-	key   string
-	value string
+	Table string
+	Key   string
+	Value string
 }
 
 func NewSQLReader() wof_reader.Reader {
@@ -100,18 +100,20 @@ func (r *SQLReader) Open(ctx context.Context, uri string) error {
 	}
 
 	r.conn = conn
-	r.table = table
-	r.key = key
-	r.value = value
+	r.Table = table
+	r.Key = key
+	r.Value = value
 
 	return nil
 }
 
-func (r *SQLReader) Read(ctx context.Context, uri string) (io.ReadCloser, error) {
+func (r *SQLReader) Read(ctx context.Context, raw_uri string) (io.ReadCloser, error) {
 
+	uri := raw_uri
+	
 	if URI_READFUNC != nil {
 
-		new_uri, err := URI_READFUNC(uri)
+		new_uri, err := URI_READFUNC(r, raw_uri)
 
 		if err != nil {
 			return nil, err
@@ -120,7 +122,7 @@ func (r *SQLReader) Read(ctx context.Context, uri string) (io.ReadCloser, error)
 		uri = new_uri
 	}
 
-	q_where := fmt.Sprintf("%s=?", r.key)
+	q := fmt.Sprintf("SELECT %s FROM %s WHERE %s=?", r.Value, r.Table, r.Key)
 	
 	q_args := []interface{}{
 		uri,
@@ -128,10 +130,18 @@ func (r *SQLReader) Read(ctx context.Context, uri string) (io.ReadCloser, error)
 	
 	if URI_QUERYFUNC != nil {
 
-	}
-	
-	q := fmt.Sprintf("SELECT %s FROM %s WHERE %s", r.value, r.table, q_where)
+		new_q, new_args, err := URI_QUERYFUNC(r, raw_uri)
 
+		if err != nil {
+			return nil, err
+		}
+
+		q = new_q
+		q_args = new_args
+	}
+
+	log.Println("Q", q, q_args)
+	
 	row := r.conn.QueryRowContext(ctx, q, q_args)
 
 	var body string
