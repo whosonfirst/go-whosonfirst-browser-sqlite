@@ -16,11 +16,14 @@ import (
 
 type readFunc func(string) (string, error)
 
+type queryFunc func(string) (string, error)
+
 var VALID_TABLE *regexp.Regexp
 var VALID_KEY *regexp.Regexp
 var VALID_VALUE *regexp.Regexp
 
 var URI_READFUNC readFunc
+var URI_QUERYFUNC queryFunc
 
 func init() {
 
@@ -117,9 +120,19 @@ func (r *SQLReader) Read(ctx context.Context, uri string) (io.ReadCloser, error)
 		uri = new_uri
 	}
 
-	q := fmt.Sprintf("SELECT %s FROM %s WHERE %s=?", r.value, r.table, r.key)
+	q_where := fmt.Sprintf("%s=?", r.key)
+	
+	q_args := []interface{}{
+		uri,
+	}
+	
+	if URI_QUERYFUNC != nil {
 
-	row := r.conn.QueryRowContext(ctx, q, uri)
+	}
+	
+	q := fmt.Sprintf("SELECT %s FROM %s WHERE %s", r.value, r.table, q_where)
+
+	row := r.conn.QueryRowContext(ctx, q, q_args)
 
 	var body string
 	err := row.Scan(&body)
