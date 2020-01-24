@@ -70,7 +70,7 @@ github.com/whosonfirst/go-reader
 github.com/whosonfirst/go-reader-database-sql
 # github.com/whosonfirst/go-sanitize v0.1.0
 github.com/whosonfirst/go-sanitize
-# github.com/whosonfirst/go-whosonfirst-browser v0.0.0-20200123180816-889db6e62312
+# github.com/whosonfirst/go-whosonfirst-browser v0.0.0-20200124182155-bc3a002030ee
 github.com/whosonfirst/go-whosonfirst-browser
 github.com/whosonfirst/go-whosonfirst-browser/assets/templates
 github.com/whosonfirst/go-whosonfirst-browser/cachereader
