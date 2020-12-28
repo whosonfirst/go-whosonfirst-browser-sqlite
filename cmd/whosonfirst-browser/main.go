@@ -4,7 +4,7 @@ import (
 	"context"
 	_ "github.com/mattn/go-sqlite3"
 	sql_reader "github.com/whosonfirst/go-reader-database-sql"
-	"github.com/whosonfirst/go-whosonfirst-browser"
+	"github.com/whosonfirst/go-whosonfirst-browser/v3"
 	wof_uri "github.com/whosonfirst/go-whosonfirst-uri"
 	"log"
 	"strconv"
