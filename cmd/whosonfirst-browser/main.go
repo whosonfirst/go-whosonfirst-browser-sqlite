@@ -28,23 +28,27 @@ func main() {
 
 		_, uri_args, err := wof_uri.ParseURI(raw_uri)
 
-		if !uri_args.IsAlternate {
-			return "", nil, nil
-		}
-		
-		str_alt, err := uri_args.AltGeom.String()
-		
 		if err != nil {
 			return "", nil, err
 		}
-			
-		q_where := "source=?"
-		
-		q_args := []interface{}{
-			str_alt,
+
+		if !uri_args.IsAlternate {
+			return "", nil, nil
 		}
-		
-		return q_where, q_args, nil
+
+		alt_label, err := uri_args.AltGeom.String()
+
+		if err != nil {
+			return "", nil, err
+		}
+
+		where := "alt_label = ?"
+
+		args := []interface{}{
+			alt_label,
+		}
+
+		return where, args, nil
 	}
 	
 	ctx := context.Background()
