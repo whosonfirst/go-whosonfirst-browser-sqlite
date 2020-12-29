@@ -7,6 +7,7 @@ type Endpoints struct {
 	Png   string
 	Svg   string
 	Spr   string
+	Search string
 }
 
 type ErrorVars struct {
