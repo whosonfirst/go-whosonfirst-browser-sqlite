@@ -19,17 +19,17 @@ type SearchHandlerOptions struct {
 type SearchVars struct {
 	Endpoints *Endpoints
 	Query     string
-	Results   spr.StandardPlacesResults
+	Results   []spr.StandardPlacesResult
 }
 
 func SearchHandler(opts SearchHandlerOptions) (gohttp.Handler, error) {
 
 	t := opts.Templates.Lookup("search")
-
+	
 	if t == nil {
-		return nil, errors.New("Missing search template")
+		return nil, errors.New("Missing 'search' template.")
 	}
-
+	
 	fn := func(rsp gohttp.ResponseWriter, req *gohttp.Request) {
 
 		vars := SearchVars{
@@ -55,9 +55,11 @@ func SearchHandler(opts SearchHandlerOptions) (gohttp.Handler, error) {
 			}
 
 			vars.Query = term
-			vars.Results = results
+			vars.Results = results.Results()
 		}
 
+		rsp.Header().Set("Content-type", "text/html")
+		
 		RenderTemplate(rsp, t, vars)
 		return
 	}
