@@ -86,7 +86,7 @@ github.com/whosonfirst/go-rfc-5646
 github.com/whosonfirst/go-sanitize
 # github.com/whosonfirst/go-spatialite v0.1.1
 github.com/whosonfirst/go-spatialite
-# github.com/whosonfirst/go-whosonfirst-browser/v3 v3.1.1
+# github.com/whosonfirst/go-whosonfirst-browser/v3 v3.1.2
 github.com/whosonfirst/go-whosonfirst-browser/v3
 github.com/whosonfirst/go-whosonfirst-browser/v3/assets/templates
 github.com/whosonfirst/go-whosonfirst-browser/v3/http

@@ -231,6 +231,8 @@ github.com/whosonfirst/go-whosonfirst-browser/v3 v3.1.0 h1:aNf2fqdGzrsUHlRskbc7s
 github.com/whosonfirst/go-whosonfirst-browser/v3 v3.1.0/go.mod h1:Q2KdWDbzyF4AcppBoB9rR5rmKkevwDsodjbsr4xgyW0=
 github.com/whosonfirst/go-whosonfirst-browser/v3 v3.1.1 h1:0VNbl29RO9Ob1eiY5oeH0vjR+CA7zeILg+jON3a7ztk=
 github.com/whosonfirst/go-whosonfirst-browser/v3 v3.1.1/go.mod h1:Q2KdWDbzyF4AcppBoB9rR5rmKkevwDsodjbsr4xgyW0=
+github.com/whosonfirst/go-whosonfirst-browser/v3 v3.1.2 h1:Fjb8tEWgQafil04QacpO9FOjVBYpWQJthODIKCa8XQ0=
+github.com/whosonfirst/go-whosonfirst-browser/v3 v3.1.2/go.mod h1:Q2KdWDbzyF4AcppBoB9rR5rmKkevwDsodjbsr4xgyW0=
 github.com/whosonfirst/go-whosonfirst-cli v0.1.0 h1:Wwj9z0R/ryHmPmpVm5jCbXdG4agJzKMWXDtPVReN/KA=
 github.com/whosonfirst/go-whosonfirst-cli v0.1.0/go.mod h1:Edy+amD+fMq1QS1yxB3u8maA8I93q/LG7JRNh+fsdfc=
 github.com/whosonfirst/go-whosonfirst-crawl v0.1.0/go.mod h1:ZIYj6wdjduyJkWHwg4P3gNeLgWMW9uHZOn04eusRnLI=
