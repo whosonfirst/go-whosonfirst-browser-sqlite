@@ -157,7 +157,7 @@ $> bin/whosonfirst-browser \
 ```
 
 The if you visit `http://localhost:8080/search/?term=T2` in a web browser you should see this:
-s
+
 ![](docs/images/wof-browser-search-t2.png)
 
 If you click on the third link or visit `http://localhost:8080/id/1477855607` you'll see this:
