@@ -1,4 +1,3 @@
-
 package browser
 
 import (
@@ -12,10 +11,10 @@ import (
 	tzhttp "github.com/sfomuseum/go-http-tilezen/http"
 	"github.com/whosonfirst/go-cache"
 	"github.com/whosonfirst/go-reader"
-	"github.com/whosonfirst/go-whosonfirst-search/fulltext"	
-	"github.com/whosonfirst/go-whosonfirst-browser/v3/assets/templates"
 	_ "github.com/whosonfirst/go-reader-cachereader"
+	"github.com/whosonfirst/go-whosonfirst-browser/v3/assets/templates"
 	"github.com/whosonfirst/go-whosonfirst-browser/v3/http"
+	"github.com/whosonfirst/go-whosonfirst-search/fulltext"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -70,22 +69,22 @@ func Start(ctx context.Context) error {
 
 	enable_search_api := fs.Bool("enable-search-api", true, "Enable the (API) search handlers.")
 	enable_search_api_geojson := fs.Bool("enable-search-api-geojson", false, "Enable the (API) search handlers to return results as GeoJSON.")
-	
+
 	enable_search_html := fs.Bool("enable-search-html", true, "Enable the (human-friendly) search handlers.")
-	
+
 	enable_search := fs.Bool("enable-search", false, "Enable both the API and human-friendly search handlers.")
-	
+
 	search_database_uri := fs.String("search-database-uri", "", "A valid whosonfirst/go-whosonfist-search/fulltext URI.")
-	
+
 	path_png := fs.String("path-png", "/png/", "The path that PNG requests should be served from.")
 	path_svg := fs.String("path-svg", "/svg/", "The path that SVG requests should be served from.")
 	path_geojson := fs.String("path-geojson", "/geojson/", "The path that GeoJSON requests should be served from.")
 	path_geojsonld := fs.String("path-geojson-ld", "/geojson-ld/", "The path that GeoJSON-LD requests should be served from.")
 	path_spr := fs.String("path-spr", "/spr/", "The path that SPR requests should be served from.")
 	path_select := fs.String("path-select", "/select/", "The path that 'select' requests should be served from.")
-	
+
 	path_search_api := fs.String("path-search-api", "/search/spr/", "The path that API 'search' requests should be served from.")
-	path_search_html := fs.String("path-search-html", "/search/", "The path that API 'search' requests should be served from.")		
+	path_search_html := fs.String("path-search-html", "/search/", "The path that API 'search' requests should be served from.")
 
 	path_id := fs.String("path-id", "/id/", "The that Who's On First documents should be served from.")
 
@@ -99,17 +98,17 @@ func Start(ctx context.Context) error {
 
 	if *enable_all {
 		*enable_graphics = true
-		*enable_data = true		
+		*enable_data = true
 		*enable_html = true
 		*enable_search = true
 	}
 
 	if *enable_search {
 		*enable_search_api = true
-		*enable_search_api_geojson = true		
-		*enable_search_html = true		
+		*enable_search_api_geojson = true
+		*enable_search_html = true
 	}
-	
+
 	if *enable_graphics {
 		*enable_png = true
 		*enable_svg = true
@@ -125,7 +124,7 @@ func Start(ctx context.Context) error {
 	if *enable_search_html {
 		*enable_html = true
 	}
-	
+
 	if *enable_html {
 		*enable_geojson = true
 		*enable_png = true
@@ -151,7 +150,7 @@ func Start(ctx context.Context) error {
 	cr_q := url.Values{}
 	cr_q.Set("reader", *data_source)
 	cr_q.Set("cache", *cache_source)
-	
+
 	cr_uri := url.URL{}
 	cr_uri.Scheme = "cachereader"
 	cr_uri.RawQuery = cr_q.Encode()
@@ -312,19 +311,19 @@ func Start(ctx context.Context) error {
 	if *enable_search_api {
 
 		search_db, err := fulltext.NewFullTextDatabase(ctx, *search_database_uri)
-		
+
 		if err != nil {
 			return err
 		}
-		
+
 		search_opts := http.SearchAPIHandlerOptions{
 			Database: search_db,
 		}
-		
+
 		if *enable_search_api_geojson {
 
 			search_opts.EnableGeoJSON = true
-			
+
 			geojson_reader, err := reader.NewReader(ctx, *data_source)
 
 			if err != nil {
@@ -334,27 +333,27 @@ func Start(ctx context.Context) error {
 			search_opts.GeoJSONReader = geojson_reader
 
 			/*
-			if resolver_uri != "" {
+				if resolver_uri != "" {
 
-			resolver_func, err := geojson.NewSPRPathResolverFunc(ctx, resolver_uri)
+				resolver_func, err := geojson.NewSPRPathResolverFunc(ctx, resolver_uri)
 
-			if err != nil {
-				return err
-			}
+				if err != nil {
+					return err
+				}
 
-			api_pip_opts.SPRPathResolver = resolver_func
+				api_pip_opts.SPRPathResolver = resolver_func
 			*/
 		}
-		
+
 		search_handler, err := http.SearchAPIHandler(search_opts)
-		
+
 		if err != nil {
 			return err
 		}
-		
-		mux.Handle(*path_search_api, search_handler)			
+
+		mux.Handle(*path_search_api, search_handler)
 	}
-	
+
 	if *enable_html {
 
 		if *proxy_tiles {
@@ -416,7 +415,7 @@ func Start(ctx context.Context) error {
 		if *enable_search_html {
 			endpoints.Search = *path_search_html
 		}
-		
+
 		index_opts := http.IndexHandlerOptions{
 			Templates: t,
 			Endpoints: endpoints,
@@ -459,7 +458,7 @@ func Start(ctx context.Context) error {
 			search_opts := http.SearchHandlerOptions{
 				Templates: t,
 				Endpoints: endpoints,
-				Database: search_db,
+				Database:  search_db,
 			}
 
 			search_handler, err := http.SearchHandler(search_opts)
@@ -471,7 +470,7 @@ func Start(ctx context.Context) error {
 			search_handler = bootstrap.AppendResourcesHandlerWithPrefix(search_handler, bootstrap_opts, *static_prefix)
 			search_handler = tangramjs.AppendResourcesHandlerWithPrefix(search_handler, tangramjs_opts, *static_prefix)
 
-			mux.Handle(*path_search_html, search_handler)			
+			mux.Handle(*path_search_html, search_handler)
 		}
 
 		err = bootstrap.AppendAssetHandlersWithPrefix(mux, *static_prefix)

@@ -9,8 +9,8 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-search/fulltext"
 	wof_spr "github.com/whosonfirst/go-whosonfirst-spr"
 	wof_sqlite "github.com/whosonfirst/go-whosonfirst-sqlite"
-	"github.com/whosonfirst/go-whosonfirst-sqlite-spr"	
 	"github.com/whosonfirst/go-whosonfirst-sqlite-features/tables"
+	"github.com/whosonfirst/go-whosonfirst-sqlite-spr"
 	wof_database "github.com/whosonfirst/go-whosonfirst-sqlite/database"
 	_ "log"
 	"net/url"
@@ -124,9 +124,9 @@ func (ftdb *SQLiteFullTextDatabase) QueryString(ctx context.Context, term string
 
 	type SPRResult struct {
 		Index int
-		SPR wof_spr.StandardPlacesResult
+		SPR   wof_spr.StandardPlacesResult
 	}
-	
+
 	done_ch := make(chan bool)
 	err_ch := make(chan error)
 	spr_ch := make(chan SPRResult)
@@ -135,7 +135,7 @@ func (ftdb *SQLiteFullTextDatabase) QueryString(ctx context.Context, term string
 
 	remaining := 0
 	idx := 0
-	
+
 	for rows.Next() {
 
 		var id int64
@@ -170,7 +170,7 @@ func (ftdb *SQLiteFullTextDatabase) QueryString(ctx context.Context, term string
 
 			spr_ch <- SPRResult{
 				Index: idx,
-				SPR: spr_r,
+				SPR:   spr_r,
 			}
 
 		}(idx, id)
@@ -191,18 +191,18 @@ func (ftdb *SQLiteFullTextDatabase) QueryString(ctx context.Context, term string
 
 	indices := make([]int, 0)
 
-	for i, _ := range spr_results {		
+	for i, _ := range spr_results {
 		indices = append(indices, i)
 	}
 
 	sort.Ints(indices)
 
 	sorted := make([]wof_spr.StandardPlacesResult, len(indices))
-	
+
 	for idx, i := range indices {
 		sorted[idx] = spr_results[i]
 	}
-	
+
 	r := &spr.SQLiteResults{
 		Places: sorted,
 	}
