@@ -127,22 +127,20 @@ $> bin/wof-dist-build \
 
 ...time passes
 
-11:36:12.584765 [wof-dist-build] STATUS local sqlite is /usr/local/data/dist/sfomuseum-data-2020-latest.db
-11:36:21.354596 [wof-dist-build] STATUS time to build UNCOMPRESSED distributions for sfomuseum-data-2020 29m58.225456401s
-11:36:21.354663 [wof-dist-build] STATUS register function to compress /usr/local/data/dist/sfomuseum-data-2020-latest.db
-11:36:21.354676 [wof-dist-build] STATUS time to wait to start compressing /usr/local/data/dist/sfomuseum-data-2020-latest.db 437ns
-11:39:48.124584 [wof-dist-build] STATUS All done compressing /usr/local/data/dist/sfomuseum-data-2020-latest.db (throttle)
-11:39:48.124981 [wof-dist-build] STATUS time to compress /usr/local/data/dist/sfomuseum-data-2020-latest.db 3m26.768055449s
-11:39:48.124990 [wof-dist-build] STATUS All done compressing /usr/local/data/dist/sfomuseum-data-2020-latest.db
-11:39:48.125028 [wof-dist-build] STATUS remove uncompressed file /usr/local/data/dist/sfomuseum-data-2020-latest.db
-11:39:48.303414 [wof-dist-build] STATUS time to remove uncompressed files for sfomuseum-data-2020 178.370785ms
-11:39:48.303455 [wof-dist-build] STATUS time to build COMPRESSED distributions for sfomuseum-data-2020 33m25.172078076s
-11:39:48.303493 [wof-dist-build] STATUS time to build distributions for 8 repos 33m25.172194303s
-11:39:48.303510 [wof-dist-build] STATUS ITEMS map[sfomuseum-data-2020:[sfomuseum-data-2020-latest.db]]
-11:39:48.304063 [wof-dist-build] STATUS Wrote inventory /usr/local/data/dist/sfomuseum-data-2020-inventory.json
+17:11:07.335325 [wof-dist-build] STATUS local sqlite is /usr/local/data/dist/sfomuseum-data-2020-latest.db
+17:11:15.144435 [wof-dist-build] STATUS time to build UNCOMPRESSED distributions for sfomuseum-data-2020 29m44.95956821s
+17:11:15.144478 [wof-dist-build] STATUS time to remove uncompressed files for sfomuseum-data-2020 1.1µs
+17:11:15.144485 [wof-dist-build] STATUS time to build COMPRESSED distributions for sfomuseum-data-2020 29m44.959632175s
+17:11:15.144588 [wof-dist-build] STATUS time to build distributions for 7 repos 29m44.959831649s
+17:11:15.144605 [wof-dist-build] STATUS ITEMS map[sfomuseum-data-2020:[]]
+17:11:15.144913 [wof-dist-build] STATUS Wrote inventory /usr/local/data/dist/sfomuseum-data-2020-inventory.json
 ```
 
-By default the `wof-dist-build` tool compresses the products it creates but because the `-compress-all=false` flag is set we can use our SQLite database as soon as it's finished being indexed.
+A couple things to note:
+
+* By default the `wof-dist-build` tool compresses the products it creates but because the `-compress-all=false` flag is set we can use our SQLite database as soon as it's finished being indexed.
+
+* The `wof-dist-build` is still configured to always write a `-inventory.json` file even if there aren't any compressed distributions. This will be fixed in future releases. Until then, the `-inventory.json` file can be assumed to be safe to delete.
 
 ### Loading a SQLite database for browsing
 
