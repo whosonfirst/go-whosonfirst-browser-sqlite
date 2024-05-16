@@ -2,6 +2,10 @@
 
 A Go package that implements a SQLite-enabled instance of the `whosonfirst/go-whosonfirst-browser` tool.
 
+## Important
+
+This package has been replaced by the [go-whosonfirst-spelunker](https://github.com/whosonfirst?q=go-whosonfirst-spelunker&type=all&language=&sort=) packages and will no longer be actively maintained.
+
 ## Description
 
 The `go-whosonfirst-browser-sqlite` package implements a SQLite-enabled instance of the [go-whosonfirst-browser](https://github.com/whosonfirst/go-whosonfirst-browser) tool.
